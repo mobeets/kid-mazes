@@ -202,7 +202,7 @@ class person {
     strokeWeight(scl / 4);
     for (let i = 0; i < this.visited.length-1; i++) {
       let c = 255 - 2*(this.visited.length - 1 - i);
-      let alph = constrain(c, 0, 255);
+      let alph = 255;//constrain(c, 0, 255);
       stroke(color(250, 0, 250, alph));
       
       beginShape();
