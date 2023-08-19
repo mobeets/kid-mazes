@@ -61,6 +61,20 @@ function restart() {
   // startbutton.hide();
 }
 
+function touchStarted() {
+  let a = atan2(mouseY - me.pos.y, mouseX - me.pos.x);
+  if (a < 0) { a += 360; }
+  if (a > 45 && a < 135) {
+    me.update(0, 1); // down
+  } else if (a > 135 && a < 225) {
+    me.update(-1, 0); // left
+  } else if (a > 225 && a < 315) {
+    me.update(0, -1); // up
+  } else if (a > 315 || a < 45) {
+    me.update(1, 0); // right
+  }
+}
+
 function keyPressed() { 
   if (keyCode === LEFT_ARROW) {
     me.update(-1, 0);
@@ -70,33 +84,41 @@ function keyPressed() {
     me.update(0, -1);
   } else if (keyCode === DOWN_ARROW) {
     me.update(0, 1);
+  } else if (keyCode === ENTER) {
+    restart();
   }
 }
 
 function controls() {
   let newline;
   newline = createDiv("Rows");
-  newline.parent("main-content");
-  rowcount = createSlider(2, 50, 10);
-  rowcount.parent("main-content");
+  newline.parent("main-controls");
+  newline.addClass('item');
+  rowcount = createSlider(2, 20, 5);
+  rowcount.style('width', '15%');
+  rowcount.parent("main-controls");
+  rowcount.addClass('item');
 
   newline = createDiv("Columns");
-  newline.parent("main-content");
-  colcount = createSlider(2, 50, 10);
-  colcount.parent("main-content");
+  newline.parent("main-controls");
+  newline.addClass('item');
+  colcount = createSlider(2, 20, 5);
+  colcount.style('width', '15%');
+  colcount.parent("main-controls");
+  colcount.addClass('item');
 
   newline = createDiv("Scale");
-  newline.parent("main-content");
-
-  scalar = createSlider(1, 100, 60);
-  scalar.parent("main-content");
-
-  newline = createDiv("<br/>");
-  newline.parent("main-content");
+  newline.parent("main-controls");
+  newline.addClass('item');
+  scalar = createSlider(1, 100, 100);
+  scalar.style('width', '15%');
+  scalar.parent("main-controls");
+  scalar.addClass('item');
 
   restartButton = createButton("New maze");
   restartButton.mousePressed(restart);
-  restartButton.parent("main-content");
+  restartButton.parent("go");
+  restartButton.addClass('button');
 }
 
 function getRandomImagePath() {
@@ -113,6 +135,7 @@ function setup() {
   cx.parent("canvas-content");
   textSize(64);
   textAlign(CENTER, CENTER);
+  angleMode(DEGREES);
   controls();
   restart();
 }
@@ -290,18 +313,16 @@ function draw() {
     cell.node();
   }
   
-  if(finished())
-  {
-   endMarker(); 
-  }
-  
   if (pathfound) {
     if (s < path.length) {
       pathwalker();
     }
   }
 
-  me.render();
+  if(finished()) {
+    me.render();
+    endMarker();
+  }
   if (me.pos.x === end.pos.x && me.pos.y == end.pos.y) {
     fill(250, 0, 0);
     strokeWeight(8);
