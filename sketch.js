@@ -30,7 +30,15 @@ let winSound;
 let startedPlaying = false;
 let stepCount;
 
-function restart() {
+function restart(seednum) {
+  if (seednum === undefined) {
+    let url = new URL(window.location.href);
+    seednum = Math.round(10000*random());
+    url.searchParams.set('id', seednum);
+    history.pushState({},'',url.href);
+  }
+  randomSeed(seednum);
+
   preload();
   count = 0;
   stepCount = 0;
@@ -138,6 +146,15 @@ function preload() {
   winSound = loadSound(getRandomFilePath(sounds, 'mp3'));
 }
 
+function checkForSeed() {
+  let searchParams = new URLSearchParams(window.location.search);
+  if (searchParams.has('id')) {
+    let seed = searchParams.get('id');
+    let seednum = parseInt(seed);
+    return seednum;
+  }
+}
+
 function setup() {
   let cx = createCanvas(windowWidth, windowHeight);
   cx.parent("canvas-content");
@@ -145,7 +162,8 @@ function setup() {
   textAlign(CENTER, CENTER);
   angleMode(DEGREES);
   controls();
-  restart();
+  let seednum = checkForSeed();
+  restart(seednum);
 }
 
 function heuristic(a, b) {
@@ -338,8 +356,6 @@ function draw() {
 }
 
 function showScore() {
-  fill('black');
-  textSize(12);
   $('#score').html('Steps: ' + stepCount.toString());
 }
 

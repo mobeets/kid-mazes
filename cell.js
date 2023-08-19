@@ -215,10 +215,10 @@ class person {
 }
 
 function endMarker() {
-  fill(endColor);
+  fill('lightblue');
   noStroke();
 
-  // circle(end.pos.x + end.size / 2, end.pos.y + end.size / 2, end.size / 2);
+  circle(end.pos.x + end.size / 2, end.pos.y + end.size / 2, end.size-5);
   image(endImg, end.pos.x, end.pos.y, scl, scl, 0, 0, endImg.width, endImg.height);
 }
 
