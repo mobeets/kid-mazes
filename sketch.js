@@ -24,8 +24,10 @@ let s, e;
 let display;
 let me;
 let startImg, endImg;
+let images = ['baby-trex', 'trex', 'plesiosaur', 'mosasaur'];
 
 function restart() {
+  preload();
   count = 0;
   walkercount = 0;
   s = 1;
@@ -75,20 +77,18 @@ function controls() {
   let newline;
   newline = createDiv("Rows");
   newline.parent("main-content");
-
-  rowcount = createInput('10', 'number');
+  rowcount = createSlider(2, 50, 10);
   rowcount.parent("main-content");
 
   newline = createDiv("Columns");
   newline.parent("main-content");
-
-  colcount = createInput('10', 'number');
+  colcount = createSlider(2, 50, 10);
   colcount.parent("main-content");
 
   newline = createDiv("Scale");
   newline.parent("main-content");
 
-  scalar = createInput('60', 'number');
+  scalar = createSlider(1, 100, 60);
   scalar.parent("main-content");
 
   newline = createDiv("<br/>");
@@ -97,43 +97,15 @@ function controls() {
   restartButton = createButton("New maze");
   restartButton.mousePressed(restart);
   restartButton.parent("main-content");
+}
 
-  // newline = createDiv("<br/> Maze generation animation Speed");
-  // newline.parent("main-content");
-
-  // speedSlider = createSlider(1, 10, 1);
-  // speedSlider.parent("main-content");
-
-  // newline = createDiv("<br/>");
-  // newline.parent("main-content");
-  
-  // display = createRadio();
-  // display.option('Show Maze', 'Maze').checked = true;
-  // display.option('Show Graph', 'Graph');
-  // display.parent("main-content")
-  // display.style('width', '110px');
-  
-  // newline = createDiv("<br/>");
-  // newline.parent("main-content");
-
-  // auto = createCheckbox('animate Maze generation', false);
-  // auto.parent("main-content");
-  // auto.changed(restart);
-
-  // newline = createDiv("<br/>");
-  // newline.parent("main-content");
-
-  // startbutton = createButton("complete Maze");
-  // startbutton.parent("main-content");
-  // startbutton.mousePressed(() => {
-  //   astar = true;
-  // });
-  // startbutton.hide();
+function getRandomImagePath() {
+  return 'assets/' + random(images) + '.png';
 }
 
 function preload() {
-  startImg = loadImage('assets/trex.png');
-  endImg = loadImage('assets/baby-trex.png');  
+  startImg = loadImage(getRandomImagePath());
+  endImg = loadImage(getRandomImagePath());
 }
 
 function setup() {
@@ -332,6 +304,8 @@ function draw() {
   me.render();
   if (me.pos.x === end.pos.x && me.pos.y == end.pos.y) {
     fill(250, 0, 0);
+    strokeWeight(8);
+    stroke('black');
     text('YOU WIN!', width/2, height/2);
   }
 }
