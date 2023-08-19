@@ -3,7 +3,7 @@ html, body {
   display: grid;
   height: 100vh;
   place-items: center;
-
+/*  background-color: pink;*/
 }
 
 canvas {

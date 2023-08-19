@@ -203,7 +203,7 @@ class person {
     for (let i = 0; i < this.visited.length-1; i++) {
       let c = 255 - 2*(this.visited.length - 1 - i);
       let alph = constrain(c, 0, 255);
-      stroke(color(0, 0, 250, alph));
+      stroke(color(250, 0, 250, alph));
       
       beginShape();
       vertex(this.visited[i].x + this.size/2, this.visited[i].y + this.size/2);

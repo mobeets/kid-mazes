@@ -24,12 +24,15 @@ let s, e;
 let display;
 let me;
 let startImg, endImg;
-let images = ['baby-trex', 'trex', 'plesiosaur', 'mosasaur'];
+let images = ['baby-trex', 'trex', 'plesiosaur', 'mosasaur', 'stegosaurus', 'orca', 'shark', 'whale', 'anglerfish'];
+let winSound;
+let startedPlaying = false;
 
 function restart() {
   preload();
   count = 0;
   walkercount = 0;
+  startedPlaying = false;
   s = 1;
   e = 2;
   cols = int(colcount.value());
@@ -128,6 +131,8 @@ function getRandomImagePath() {
 function preload() {
   startImg = loadImage(getRandomImagePath());
   endImg = loadImage(getRandomImagePath());
+  soundFormats('mp3', 'ogg');
+  winSound = loadSound('assets/eating');
 }
 
 function setup() {
@@ -320,14 +325,20 @@ function draw() {
   }
 
   if(finished()) {
-    me.render();
     endMarker();
+    me.render();
   }
   if (me.pos.x === end.pos.x && me.pos.y == end.pos.y) {
     fill(250, 0, 0);
     strokeWeight(8);
     stroke('black');
     text('YOU WIN!', width/2, height/2);
+    if (winSound.isLoaded()) {
+      if (!startedPlaying) {
+        winSound.play();
+        startedPlaying = true;
+      }
+    }
   }
 }
 
