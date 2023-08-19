@@ -25,6 +25,7 @@ let display;
 let me;
 let startImg, endImg;
 let images = ['baby-trex', 'trex', 'plesiosaur', 'mosasaur', 'stegosaurus', 'orca', 'shark', 'whale', 'anglerfish'];
+let sounds = ['eating', 'bite1', 'bite2'];
 let winSound;
 let startedPlaying = false;
 
@@ -124,15 +125,15 @@ function controls() {
   restartButton.addClass('button');
 }
 
-function getRandomImagePath() {
-  return 'assets/' + random(images) + '.png';
+function getRandomFilePath(names, ext) {
+  return 'assets/' + random(names) + '.' + ext;
 }
 
 function preload() {
-  startImg = loadImage(getRandomImagePath());
-  endImg = loadImage(getRandomImagePath());
+  startImg = loadImage(getRandomFilePath(images, 'png'));
+  endImg = loadImage(getRandomFilePath(images, 'png'));
   soundFormats('mp3', 'ogg');
-  winSound = loadSound('assets/eating');
+  winSound = loadSound(getRandomFilePath(sounds, 'mp3'));
 }
 
 function setup() {
