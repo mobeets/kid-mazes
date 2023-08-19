@@ -169,6 +169,7 @@ class person {
   }
   
   update(dx, dy) {
+    stepCount++;
     let cNeighbor = grid[index(this.i + dx, this.j + dy)];
     if (cNeighbor) { // neighboring cell exists
       

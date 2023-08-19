@@ -28,10 +28,12 @@ let images = ['baby-trex', 'trex', 'plesiosaur', 'mosasaur', 'stegosaurus', 'orc
 let sounds = ['eating', 'bite1', 'bite2'];
 let winSound;
 let startedPlaying = false;
+let stepCount;
 
 function restart() {
   preload();
   count = 0;
+  stepCount = 0;
   walkercount = 0;
   startedPlaying = false;
   s = 1;
@@ -329,16 +331,30 @@ function draw() {
     endMarker();
     me.render();
   }
+  showScore();
   if (me.pos.x === end.pos.x && me.pos.y == end.pos.y) {
-    fill(250, 0, 0);
-    strokeWeight(8);
-    stroke('black');
-    text('YOU WIN!', width/2, height/2);
-    if (winSound.isLoaded()) {
-      if (!startedPlaying) {
-        winSound.play();
-        startedPlaying = true;
-      }
+    handleWin();
+  }
+}
+
+function showScore() {
+  fill('black');
+  textSize(12);
+  $('#score').html('Steps: ' + stepCount.toString());
+}
+
+function handleWin() {
+  fill(250, 0, 0);
+  strokeWeight(8);
+  stroke('black');
+  textSize(64);
+  text('YOU WON!', width/2, height/2);
+  // noStroke();
+  text('in ' + stepCount.toString() + ' steps', width/2, 2*height/3);
+  if (winSound.isLoaded()) {
+    if (!startedPlaying) {
+      winSound.play();
+      startedPlaying = true;
     }
   }
 }
